@@ -1,0 +1,7 @@
+---
+# vars file for opensearh
+
+Min_HeapSize: 2
+Max_HeapSize: 2
+
+admin_password: 1234

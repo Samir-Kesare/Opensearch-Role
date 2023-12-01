@@ -1,0 +1,53 @@
+- name: Navigate to the OpenSearch bin directory
+  shell: "cd /home/ubuntu/opensearch-2.11.0/bin"
+
+- name: Start OpenSearch in the foreground
+  
+  shell: "./opensearch"
+  args:
+    chdir: "/home/ubuntu/opensearch-2.11.0/bin"
+
+- name: Pause for 20 seconds to provide sometime for OpenSearch start
+  pause:
+    seconds: 20
+
+- name: Navigate to the securityadmin.sh directory
+  shell: "cd /home/ubuntu/opensearch-2.11.0/plugins/opensearch-security/tools"
+
+- name: Run securityadmin.sh to apply changes
+  shell: >
+    OPENSEARCH_JAVA_HOME=/home/ubuntu/opensearch-2.11.0/jdk ./securityadmin.sh
+    -cd /home/ubuntu/opensearch-2.11.0/config/opensearch-security/
+    -cacert /home/ubuntu/opensearch-2.11.0/config/root-ca.pem
+    -cert /home/ubuntu/opensearch-2.11.0/config/admin.pem
+    -key /home/ubuntu/opensearch-2.11.0/config/admin-key.pem
+    -icl -nhnv
+
+- name: Stop and restart the running OpenSearch process
+  shell: "systemctl restart opensearch"
+
+- name: Create opensearch user
+  shell: "useradd --system --shell /bin/bash -U --no-create-home opensearch"
+
+- name: Add current user to the opensearch group
+  shell: "usermod -aG opensearch $USER"
+
+- name: Change file owner to opensearch
+  shell: "chown -R opensearch /home/ubuntu/opensearch-2.11.0/"
+
+- name: giving permission to certificates
+  shell: "sudo chown opensearch:opensearch admin-key.pem admin.pem node1-key.pem node1.pem root-ca-key.pem root-ca.pem root-ca.srl"
+  args:
+    chdir: /home/ubuntu/opensearch-2.11.0/config/
+
+- name: Reload systemd manager configuration
+  shell: "systemctl daemon-reload"
+
+- name: Enable the OpenSearch service
+  shell: "systemctl enable opensearch.service"
+
+- name: Start the OpenSearch service
+  shell: "systemctl start opensearch"
+
+- name: Verify that the service is running
+  shell: "systemctl status opensearch"

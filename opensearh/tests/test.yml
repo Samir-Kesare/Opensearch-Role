@@ -1,0 +1,7 @@
+---
+- hosts: server2
+  remote_user: ubuntu
+  become_user: ubuntu
+  become: yes
+  roles:
+    - opensearh
