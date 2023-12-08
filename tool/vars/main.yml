@@ -1,0 +1,7 @@
+---
+# vars file for tool
+Min_HeapSize: 2
+Max_HeapSize: 2
+
+admin_password: Samir@124
+username: admin

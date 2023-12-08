@@ -1,0 +1,9 @@
+---
+# #handlers file for opensearh
+# - name: Reload sysctl
+#   systemd:
+#     name: sysctl
+#     state: restarted
+#     enabled: true
+#   become: yes
+#   become_user: root

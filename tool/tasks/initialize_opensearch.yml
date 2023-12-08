@@ -48,10 +48,9 @@
 # - name: Stop and restart the running OpenSearch process
 #   shell: "systemctl restart opensearch"
 
-- name: Create opensearch user and Add current user to the opensearch group
-  ansible.builtin.user:
-    name: opensearch
-    group: opensearch
+- name: change user
+  shell: sudo useradd --system --shell /bin/bash -U --no-create-home opensearch
+  ignore_errors: yes
 
 - name: Change file owner to opensearch
   become: true  
@@ -81,6 +80,12 @@
 #     - root-ca-key.pem
 #     - root-ca.pem
 #     - root-ca.srl
+- name: Creating service file
+  template:
+    src: opensearch.service.j2
+    dest: "/etc/systemd/system/opensearch.service"
+  become: yes
+  become_user: root
 
 - name: Reload systemd manager configuration
   shell: "systemctl daemon-reload"
@@ -99,3 +104,19 @@
     name: opensearch
     state: started
   register: opensearch_status
+
+# - name: Change working directory
+#   shell: cd /home/ubuntu/opensearch-2.11.0/plugins/opensearch-security/tools
+
+- name: give permission
+  shell: sudo chmod +x securityadmin.sh
+  args:
+    chdir: /home/ubuntu/opensearch-2.11.0/plugins/opensearch-security/tools
+
+- name: Invoke the script
+  shell: sudo OPENSEARCH_JAVA_HOME=/home/ubuntu/opensearch-2.11.0/jdk ./securityadmin.sh -cd /home/ubuntu/opensearch-2.11.0/config/opensearch-security/ -cacert /home/ubuntu/opensearch-2.11.0/config/root-ca.pem -cert /home/ubuntu/opensearch-2.11.0/config/admin.pem -key /home/ubuntu/opensearch-2.11.0/config/admin-key.pem -icl -nhnv
+  args:
+    chdir: /home/ubuntu/opensearch-2.11.0/plugins/opensearch-security/tools
+
+
+
