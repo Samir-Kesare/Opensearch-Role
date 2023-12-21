@@ -117,6 +117,6 @@
   shell: sudo OPENSEARCH_JAVA_HOME=/home/ubuntu/opensearch-2.11.0/jdk ./securityadmin.sh -cd /home/ubuntu/opensearch-2.11.0/config/opensearch-security/ -cacert /home/ubuntu/opensearch-2.11.0/config/root-ca.pem -cert /home/ubuntu/opensearch-2.11.0/config/admin.pem -key /home/ubuntu/opensearch-2.11.0/config/admin-key.pem -icl -nhnv
   args:
     chdir: /home/ubuntu/opensearch-2.11.0/plugins/opensearch-security/tools
-
+  ignore_errors: yes
 
 

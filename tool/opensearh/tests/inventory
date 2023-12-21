@@ -1,4 +1,0 @@
-server1 ansible_user=ubuntu ansible_host=172.31.89.198 ansible_ssh_private_key_file=/home/ubuntu/key02.pem
-
-server2 ansible_user=ubuntu ansible_host=172.31.57.15 ansible_ssh_private_key_file=/home/ubuntu/key02.pem
-

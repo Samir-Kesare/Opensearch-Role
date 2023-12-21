@@ -1,0 +1,31 @@
+# Download OpenSearch
+- name: download opensearch
+  get_url:
+    url: https://artifacts.opensearch.org/releases/bundle/opensearch-dashboards/2.11.0/opensearch-dashboards-2.11.0-linux-x64.tar.gz
+    dest: /home/ubuntu
+  become: yes
+  become_user: root
+
+
+# Extract the contents of the tarball
+- name: Extract content of tarball
+  ansible.builtin.unarchive:
+    src: opensearch-dashboards-2.11.0-linux-x64.tar.gz
+    dest: /home/ubuntu
+    remote_src: yes
+
+- name: Configuring Internal User file
+  template:
+    src: opensearch_dashboards.yml.j2
+    dest: "/home/ubuntu/opensearch-dashboards-2.11.0/config/opensearch_dashboards.yml"
+    mode: 0644
+  become: true
+
+- name: invoke as script
+  shell: "./opensearch-dashboards --allow-root"
+  args:
+    chdir: /home/ubuntu/opensearch-dashboards-2.11.0/bin
+
+
+
+  
