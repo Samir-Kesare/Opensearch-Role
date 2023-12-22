@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        REPO_URL = 'https://github.com/Samir-Kesare/Opensearch-Ansible-Role.git'
+        REPO_URL = 'https://github.com/Samir-Kesare/Opensearch-Role.git'
         INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/${JOB_NAME}"
     }
 
