@@ -2,9 +2,8 @@ pipeline {
     agent any
     environment {
         REPO_URL = 'https://github.com/Samir-Kesare/Opensearch-Ansible-Role.git'
-        TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/opensearch-Terra-Infra"
         INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/searchopen"
-        ANSIBLE_PRIVATE_KEY = "/var/lib/jenkins/workspace/Opensearch-Role/appkey.pem"
+      
     }
     stages {
         stage('Clone Repository') {
@@ -17,21 +16,16 @@ pipeline {
                 sh "ansible-inventory --graph"
             }
         }
-        stage('Copy Private Key') {
-            steps {
-                sh "sudo cp ${env.TERRAFORM_WORKSPACE}/appkey.pem ${env.INSTALL_WORKSPACE}"
-                sh "sudo chmod 400 ${env.INSTALL_WORKSPACE}/appkey.pem"
-            }
-        }
+        
         stage('Installing Opensearch') {
             steps {
-                sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/cassandra-role/tests/test.yml"
+                sh "ansible-playbook  ${env.INSTALL_WORKSPACE}/master.yml"
                 
             }
         }
-        stage('Updating Opensearch Configuration') {
+        stage('Installing Opensearch-Dashboards') {
             steps {
-                sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/cassandra-role/tests/test.yml"
+                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/master.yml"
                
             }
         }
