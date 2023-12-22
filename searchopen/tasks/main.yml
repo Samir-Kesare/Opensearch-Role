@@ -14,9 +14,6 @@
   become: yes
   become_user: root
 
-- name: Specify the location of the included JDK
-  shell: export OPENSEARCH_JAVA_HOME=/home/ubuntu/opensearch-2.11.0/jdk
-
 #Configure TLS
 - name: Set up TLS certificates for OpenSearch
   include_tasks: configure_tls.yml
@@ -26,7 +23,7 @@
 
 - name: Initialize Opensearch
   include_tasks: initialize_opensearch.yml
-+
+
 - name: Initialize Opensearch-dashboards
   include_tasks: opensearch_dashboard.yml
 
