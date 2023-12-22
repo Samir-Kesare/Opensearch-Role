@@ -1,29 +1,37 @@
 pipeline {
     agent any
+
     environment {
         REPO_URL = 'https://github.com/Samir-Kesare/Opensearch-Ansible-Role.git'
         INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/${JOB_NAME}"
-      
     }
+
     stages {
         stage('Clone Repository') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: "${REPO_URL}"]]])
+                script {
+                    checkout([$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: REPO_URL]]])
+                }
             }
         }
+
         stage('List Active Opensearch Servers') {
             steps {
-                sh "ansible-inventory --graph"
+                script {
+                    sh "ansible-inventory --graph"
+                }
             }
         }
-        
+
         stage('Installing Opensearch') {
             steps {
-                sh "ansible-playbook  ${env.INSTALL_WORKSPACE}/master.yml"
-                
+                script {
+                    sh "ansible-playbook ${INSTALL_WORKSPACE}/master.yml"
+                }
             }
         }
-        
+    }
+
     post {
         success {
             echo 'Succeeded!'
@@ -32,5 +40,4 @@ pipeline {
             echo 'Failed!'
         }
     }
-}
 }
