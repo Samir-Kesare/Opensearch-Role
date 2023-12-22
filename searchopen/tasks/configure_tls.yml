@@ -1,5 +1,13 @@
 ---
-
+- name: Adding JVM file
+  template:
+    src: jvm.options.j2
+    dest: "/home/ubuntu/opensearch-2.11.0/config/jvm.options"
+    mode: 0600
+    force: true
+  become: yes
+  become_user: root
+  
 - name: Generate a root certificate
   shell: "openssl genrsa -out root-ca-key.pem 2048"
   args:
