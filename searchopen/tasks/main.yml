@@ -5,16 +5,6 @@
 - name: Adding certificates to OpenSearch.yml
   include_tasks: opensearch.yml
 
-- name: Adding JVM file
-  template:
-    src: jvm.options.j2
-    dest: "/home/ubuntu/opensearch-2.11.0/config/jvm.options"
-    mode: 0600
-    force: true
-  become: yes
-  become_user: root
-
-#Configure TLS
 - name: Set up TLS certificates for OpenSearch
   include_tasks: configure_tls.yml
 
