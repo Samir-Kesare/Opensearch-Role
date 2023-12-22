@@ -1,4 +1,9 @@
 ---
+- name: Declare environment variable for script
+  lineinfile:
+    dest: /etc/environment
+    line: "OPENSEARCH_JAVA_HOME=/home/ubuntu/opensearch-2.11.0/jdk"
+    
 - name: Configuring Internal User file
   template:
     src: internal_users.j2
