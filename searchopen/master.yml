@@ -1,0 +1,6 @@
+---
+- hosts: server2
+  remote_user: ubuntu
+  become: yes
+  roles:
+    - tool
