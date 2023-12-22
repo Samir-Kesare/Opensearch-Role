@@ -1,6 +1,0 @@
----
-- hosts: master_nodes
-  remote_user: ubuntu
-  become: yes
-  roles:
-    - searchopen
