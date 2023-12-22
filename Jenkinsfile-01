@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         REPO_URL = 'https://github.com/Samir-Kesare/Opensearch-Ansible-Role.git'
-        INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/searchopen"
+        INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/${JOB_NAME}"
       
     }
     stages {
@@ -23,13 +23,7 @@ pipeline {
                 
             }
         }
-        stage('Installing Opensearch-Dashboards') {
-            steps {
-                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/master.yml"
-               
-            }
-        }
-    }
+        
     post {
         success {
             echo 'Succeeded!'
