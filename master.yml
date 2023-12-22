@@ -1,5 +1,5 @@
 ---
-- hosts: master_nodes
+- hosts: tag_group_master_nodes
   remote_user: ubuntu
   become: yes
   roles:
