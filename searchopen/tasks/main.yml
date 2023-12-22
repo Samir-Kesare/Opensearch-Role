@@ -1,35 +1,7 @@
 ---
-# tasks file for opensearh
-- name: Update apt cache
-  apt:
-    update_cache: yes
- 
-  # Download OpenSearch
-- name: download opensearch
-  get_url:
-    url: https://artifacts.opensearch.org/releases/bundle/opensearch/2.11.0/opensearch-2.11.0-linux-x64.tar.gz
-    dest: /home/ubuntu
- 
- # Extract the contents of the tarball
-- name: Extract content of tarball
-  ansible.builtin.unarchive:
-    src: /home/ubuntu/opensearch-2.11.0-linux-x64.tar.gz
-    dest: /home/ubuntu
-    remote_src: yes
- 
-# Disable memory paging and swapping 
-- name: Disable memory paging and swapping
-  command: "sudo swapoff -a"
-
-#Increase the number of memory maps available to OpenSearch.
-- name: Increase memory maps for OpenSearch
-  lineinfile:
-    dest: /etc/sysctl.conf
-    line: "vm.max_map_count=262144"
-
-- name: reload sysctl
-  command: "sudo sysctl -p"
-
+- name: Installll-OpenSearch.yml
+  include_tasks: Install-Opensearch.yml
+  
 - name: Adding certificates to OpenSearch.yml
   include_tasks: opensearch.yml
 
