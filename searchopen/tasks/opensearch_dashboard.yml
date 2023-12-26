@@ -22,7 +22,7 @@
   become: true
 
 - name: invoke as script
-  shell: "./opensearch-dashboards --allow-root"
+  shell: "./opensearch-dashboards --allow-root &"
   args:
     chdir: /home/ubuntu/opensearch-dashboards-2.11.0/bin
 
